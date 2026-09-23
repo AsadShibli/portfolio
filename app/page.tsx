@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { navLinks, profile, projects, skillGroups } from "@/content";
 
 // Each section reads its text from content.ts so the layout stays separate from the copy.
@@ -24,8 +25,18 @@ export default function Home() {
         {/* Soft indigo wash so the intro reads as a hero, not a plain text block. */}
         <section
           id="about"
-          className="relative my-8 overflow-hidden rounded-3xl border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-slate-100 px-8 py-16 sm:px-12"
+          className="relative my-8 flex flex-col items-center gap-10 overflow-hidden rounded-3xl border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-slate-100 px-8 py-16 sm:flex-row sm:items-center sm:px-12"
         >
+          {/* Portrait from public/profile.jpg. order-first puts it above the text on small screens. */}
+          <Image
+            src="/profile.jpg"
+            alt="Portrait of MD. Asadullah Shibli"
+            width={280}
+            height={280}
+            priority
+            className="order-first h-52 w-52 rounded-3xl object-cover shadow-md ring-4 ring-white sm:order-last sm:h-64 sm:w-64"
+          />
+          <div className="flex-1">
           <p className="text-sm font-medium text-indigo-700">Hello!</p>
           <h1 className="mt-3 max-w-3xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
             I&apos;m {profile.shortName}
@@ -52,6 +63,7 @@ export default function Home() {
             >
               GitHub
             </a>
+          </div>
           </div>
         </section>
 
