@@ -1,6 +1,6 @@
 # MD. Asadullah Shibli
 
-Full stack web developer in Dhaka, with a Bachelor of Engineering from IUBAT. This repo is my one-page portfolio, built with Next.js, TypeScript, and Tailwind for a hands-on full-stack internship.
+Full stack web developer in Dhaka, with a Bachelor of Engineering from IUBAT. This repo is my one-page portfolio, built with Next.js, TypeScript, and Tailwind.
 
 Live site: https://portfolio-inky-eight-87.vercel.app
 

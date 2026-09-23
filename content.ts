@@ -7,8 +7,8 @@ export const profile = {
   role: "Full Stack Web Developer",
   location: "Dhaka, Bangladesh",
   education: "Bachelor of Engineering, IUBAT",
-  // Intern-focused bio. Django and FastAPI stay off this page on purpose.
-  bio: "Full stack web developer based in Dhaka, with a Bachelor of Engineering from IUBAT. I build web applications with TypeScript, React, Next.js, and Node.js, and I am looking for a hands-on full-stack internship.",
+  // Value of the work, not a job ask. Django and FastAPI stay off this page on purpose.
+  bio: "Full stack web developer based in Dhaka, with a Bachelor of Engineering from IUBAT. I build web applications with TypeScript, React, Next.js, and Node.js, taking a product from the interface through the API and the database.",
   github: "https://github.com/AsadShibli",
   linkedin: "https://www.linkedin.com/in/shibliasadullah/",
   x: "https://x.com/shibliasadullah",

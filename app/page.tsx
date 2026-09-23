@@ -70,7 +70,7 @@ export default function Home() {
         <section id="skills" className="py-16">
           <h2 className="text-2xl font-semibold tracking-tight">My top skills</h2>
           <p className="mt-2 text-slate-600">
-            Web stack used for a full-stack internship.
+            The stack I use to ship web applications.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {skillGroups.map((group) => (
