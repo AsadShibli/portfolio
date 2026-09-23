@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  /* Indigo accent used by buttons and the hero wash. */
+  --accent: #4338ca;
 }
 
 @theme inline {
@@ -12,15 +14,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Geist is loaded in layout.tsx and applied on body below. */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Dark-mode colors from the starter are commented out so this page stays light. */
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+*/
