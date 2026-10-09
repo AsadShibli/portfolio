@@ -98,11 +98,20 @@ body {
   background: radial-gradient(closest-side, var(--glow), transparent);
 }
 
+/* Name gradient with a slow shimmer sweeping across it. */
 .text-gradient {
-  background: linear-gradient(100deg, var(--fg) 30%, var(--accent-strong));
+  background: linear-gradient(100deg, var(--fg) 20%, var(--accent-strong) 40%, var(--fg) 60%, var(--accent-strong) 80%);
+  background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: shimmer 7s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -250% 0;
+  }
 }
 
 /* Theme toggle shows the icon for the theme you would switch to. */
@@ -123,13 +132,30 @@ body {
   animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-@supports (animation-timeline: view()) {
-  .reveal {
-    animation: rise linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 35%;
-  }
+/* Scroll reveal: ScrollReveal adds .is-visible; --d staggers cards in a row.
+   Hidden only when JS is running, set by the theme script in layout.tsx. */
+[data-js] .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
 }
+
+[data-js] .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* The active carousel slide's details rise in one after another. */
+[data-active="true"] .slide-details > * {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+[data-active="true"] .slide-details > :nth-child(2) { animation-delay: 60ms; }
+[data-active="true"] .slide-details > :nth-child(3) { animation-delay: 120ms; }
+[data-active="true"] .slide-details > :nth-child(4) { animation-delay: 180ms; }
+[data-active="true"] .slide-details > :nth-child(5) { animation-delay: 240ms; }
+[data-active="true"] .slide-details > :nth-child(n + 6) { animation-delay: 300ms; }
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -140,5 +166,6 @@ body {
   *::after {
     animation: none !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
 }

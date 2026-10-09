@@ -8,8 +8,10 @@ export const profile = {
   location: "Dhaka, Bangladesh",
   timezone: "GMT+6",
   education: "Bachelor of Engineering, IUBAT",
-  // Value of the work, not a job ask. Django and FastAPI stay off this page on purpose.
-  bio: "Full stack web developer based in Dhaka, with a Bachelor of Engineering from IUBAT. I build web applications with TypeScript, React, Next.js, and Node.js, taking a product from the interface through the API and the database.",
+  // The hero cycles through these after "I build".
+  building: ["full-stack web apps", "REST and real-time APIs", "dispatch and booking systems", "admin dashboards"],
+  // Value of the work, not a job ask.
+  bio: "Full stack web developer based in Dhaka, with a Bachelor of Engineering from IUBAT. I build web applications with TypeScript, React, and Next.js on the front, Node.js or Python (FastAPI) behind them, taking a product from the interface through the API and the database.",
   githubUser: "AsadShibli",
   github: "https://github.com/AsadShibli",
   linkedin: "https://www.linkedin.com/in/shibliasadullah/",
@@ -33,8 +35,8 @@ export const layers = [
   },
   {
     title: "API",
-    body: "Express and Next.js route handlers with cookie sessions, permissions, and validation on the server.",
-    proof: "Rise Together serves auth, uploads, and poster rendering.",
+    body: "Express and FastAPI services with sessions or rotating JWTs, role guards, and validation on the server.",
+    proof: "Rokkha streams live incident updates over WebSockets.",
   },
   {
     title: "Data",
@@ -46,25 +48,28 @@ export const layers = [
 export const skillGroups = [
   {
     title: "Frontend",
-    items: ["TypeScript", "React", "Next.js", "Tailwind"],
+    items: ["TypeScript", "React", "Next.js", "Tailwind", "TanStack Query"],
   },
   {
     title: "Backend",
-    items: ["Node.js", "Express", "REST APIs", "Auth & sessions"],
+    items: ["Node.js", "Express", "Python", "FastAPI", "REST & WebSockets", "JWT & sessions"],
   },
   {
     title: "Data",
-    items: ["PostgreSQL", "Prisma", "Drizzle", "Supabase", "MongoDB"],
+    items: ["PostgreSQL", "Prisma", "SQLAlchemy", "Drizzle", "Redis", "Supabase"],
   },
   {
     title: "Tools & deploy",
-    items: ["Git", "Docker", "Vercel", "Render"],
+    items: ["Git", "Docker", "GitHub Actions", "pytest", "Vercel", "Render"],
   },
 ];
 
 // The project carousel reads public repos from GitHub, newest push first.
 // Only these languages count as web projects for this page.
 export const projectLanguages = ["TypeScript", "JavaScript"];
+
+// Shown first, in this order, whatever their language or last push.
+export const pinnedRepos = ["rokkha"];
 
 // Repos that are practice, notes, split halves of another project, or this site.
 export const hiddenRepos = [
@@ -74,6 +79,7 @@ export const hiddenRepos = [
   "apex-flow",
   "rise-together",
   "rise-together-backend",
+  "rise-together-frontend",
 ];
 
 export type ProjectNote = {
@@ -90,6 +96,23 @@ export type ProjectNote = {
 // Richer copy for repos by name. A repo without a note still shows, using its
 // GitHub description. These also feed the fallback list when GitHub is down.
 export const projectNotes: Record<string, ProjectNote> = {
+  rokkha: {
+    name: "Rokkha",
+    tagline:
+      "Public-safety dispatch and Online GD: a citizen presses SOS, the nearest free officer is assigned, and both sides follow it live.",
+    highlights: [
+      "Nearest-officer dispatch in SQL, locked with FOR UPDATE SKIP LOCKED so two SOS calls never share an officer",
+      "Live status and officer location over WebSockets, fanned out through Redis pub/sub",
+      "Background worker escalates an SOS that is not accepted within 2 minutes",
+      "Online GD with race-free numbering and an AI draft from a Bangla or English complaint",
+    ],
+    stack: ["FastAPI", "PostgreSQL", "SQLAlchemy", "Redis", "Next.js", "Docker"],
+    demo: "https://rokkha.vercel.app",
+    image:
+      "https://raw.githubusercontent.com/AsadShibli/rokkha/main/docs/screenshots/admin-overview.jpg",
+    imageAlt: "Rokkha station admin overview with a live map and open incidents",
+    extraLinks: [{ label: "API docs", url: "https://rokkha-api.onrender.com/docs" }],
+  },
   "dhaka-tesla-pool": {
     name: "Dhaka Tesla Pool",
     tagline:
@@ -105,22 +128,6 @@ export const projectNotes: Record<string, ProjectNote> = {
     image:
       "https://raw.githubusercontent.com/AsadShibli/dhaka-tesla-pool/master/docs/screenshots/driver-dashboard.png",
     imageAlt: "Driver dashboard with two riders sharing the car",
-  },
-  "rise-together-frontend": {
-    name: "Rise Together",
-    tagline:
-      "A poster maker: sign in, pick a design, write the lines, then save or download the poster.",
-    highlights: [
-      "Separate Next.js site and Express API, deployed to Vercel and Render",
-      "Accounts with email or phone login and password change",
-      "Server builds the poster image from a template and an uploaded photo",
-      "Admin tab with counts, design management, and review",
-    ],
-    stack: ["Next.js", "TypeScript", "Express", "MongoDB"],
-    demo: "https://rise-together-ten.vercel.app",
-    extraLinks: [
-      { label: "API repo", url: "https://github.com/AsadShibli/rise-together-backend" },
-    ],
   },
   studiodesk: {
     name: "StudioDesk",

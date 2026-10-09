@@ -1,5 +1,5 @@
 import "server-only";
-import { hiddenRepos, profile, projectLanguages, projectNotes } from "@/content";
+import { hiddenRepos, pinnedRepos, profile, projectLanguages, projectNotes } from "@/content";
 
 // Public repos are read at build time and refreshed hourly (ISR). Set
 // GITHUB_TOKEN to raise the rate limit from 60 to 5,000 requests an hour.
@@ -11,6 +11,7 @@ export type LanguageShare = { name: string; share: number; color: string };
 
 export type Project = {
   repo: string;
+  pinned: boolean;
   name: string;
   tagline: string;
   highlights: string[];
@@ -99,8 +100,15 @@ function toShares(bytes: Record<string, number>): LanguageShare[] {
     .sort((a, b) => b.share - a.share);
 }
 
+// Pinned repos sort first in their listed order; everything else ties and falls back to newest push.
+function pinRank(name: string) {
+  const i = pinnedRepos.indexOf(name);
+  return i === -1 ? pinnedRepos.length : i;
+}
+
 function isProject(repo: Repo) {
   if (repo.fork || repo.archived || hiddenRepos.includes(repo.name)) return false;
+  if (pinnedRepos.includes(repo.name)) return true;
   if (!repo.language || !projectLanguages.includes(repo.language)) return false;
   // A repo needs a description or a note in content.ts to say what it is.
   return Boolean(repo.description || projectNotes[repo.name]);
@@ -117,6 +125,7 @@ function buildProject(repo: Repo, languages: LanguageShare[]): Project {
   const note = projectNotes[repo.name];
   return {
     repo: repo.name,
+    pinned: pinnedRepos.includes(repo.name),
     name: note?.name ?? prettyName(repo.name),
     tagline: note?.tagline ?? repo.description ?? "",
     highlights: note?.highlights ?? [],
@@ -136,6 +145,7 @@ function buildProject(repo: Repo, languages: LanguageShare[]): Project {
 function fallbackProjects(): Project[] {
   return Object.entries(projectNotes).map(([repo, note]) => ({
     repo,
+    pinned: pinnedRepos.includes(repo),
     name: note.name ?? prettyName(repo),
     tagline: note.tagline,
     highlights: note.highlights,
@@ -158,7 +168,7 @@ export async function getGitHubData(): Promise<GitHubData> {
 
     const picked = repos
       .filter(isProject)
-      .sort((a, b) => b.pushed_at.localeCompare(a.pushed_at));
+      .sort((a, b) => pinRank(a.name) - pinRank(b.name) || b.pushed_at.localeCompare(a.pushed_at));
 
     const projects = await Promise.all(
       picked.map(async (repo) => {

@@ -26,7 +26,8 @@ export const metadata: Metadata = {
 };
 
 // Runs before paint: a saved choice wins, otherwise follow the system, defaulting to dark.
-const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"}document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`;
+// data-js turns on the scroll-reveal starting state in globals.css.
+const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"}document.documentElement.setAttribute("data-theme",t)}catch(e){}document.documentElement.setAttribute("data-js","")})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

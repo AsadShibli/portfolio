@@ -4,6 +4,8 @@ import { getGitHubData } from "@/lib/github";
 import { ContactForm } from "./components/contact-form";
 import { ArrowIcon, CapIcon, ExternalIcon, GitHubIcon, LinkedInIcon, PinIcon } from "./components/icons";
 import { ProjectCarousel } from "./components/project-carousel";
+import { RotatingWords } from "./components/rotating-words";
+import { ScrollReveal } from "./components/scroll-reveal";
 import { SiteHeader } from "./components/site-header";
 
 // Each section reads its text from content.ts so the layout stays separate from the copy.
@@ -16,6 +18,7 @@ export default async function Home() {
   return (
     <div id="top" className="relative min-h-full overflow-x-clip">
       <SiteHeader />
+      <ScrollReveal />
 
       <main>
         {/* Hero */}
@@ -38,7 +41,10 @@ export default async function Home() {
               <p className="mt-3 font-mono text-sm uppercase tracking-[0.2em] text-accent-strong">
                 {profile.role}
               </p>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">{profile.bio}</p>
+              <p className="mt-6 text-xl font-medium tracking-tight sm:text-2xl">
+                I build <RotatingWords words={profile.building} />
+              </p>
+              <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">{profile.bio}</p>
 
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
@@ -101,7 +107,11 @@ export default async function Home() {
 
           <div className="mt-12 grid gap-5 lg:grid-cols-3">
             {layers.map((layer, i) => (
-              <article key={layer.title} className="reveal rounded-2xl border border-line bg-surface p-6">
+              <article
+                key={layer.title}
+                className="reveal rounded-2xl border border-line bg-surface p-6 hover:border-line-strong"
+                style={{ "--d": `${i * 90}ms` } as React.CSSProperties}
+              >
                 <p className="font-mono text-xs text-subtle">0{i + 1}</p>
                 <h3 className="mt-2 text-lg font-semibold">{layer.title}</h3>
                 <p className="mt-2 leading-7 text-muted">{layer.body}</p>
@@ -133,8 +143,12 @@ export default async function Home() {
               Every item here is used in at least one of the projects below.
             </SectionHeading>
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {skillGroups.map((group) => (
-                <div key={group.title} className="reveal rounded-2xl border border-line bg-surface p-6">
+              {skillGroups.map((group, i) => (
+                <div
+                  key={group.title}
+                  className="reveal rounded-2xl border border-line bg-surface p-6 hover:border-line-strong"
+                  style={{ "--d": `${i * 90}ms` } as React.CSSProperties}
+                >
                   <h3 className="font-semibold">{group.title}</h3>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {group.items.map((item) => (
@@ -155,7 +169,7 @@ export default async function Home() {
         {/* Projects */}
         <section id="projects" className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading eyebrow="Projects" title="Recent work, newest first">
+            <SectionHeading eyebrow="Projects" title="Featured work, then the newest">
               Use the arrows, the names, your keyboard&apos;s ← → keys, or swipe to move through
               older projects.
             </SectionHeading>
@@ -165,7 +179,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="mt-10">
+          <div className="reveal mt-10">
             <ProjectCarousel projects={projects} />
           </div>
 
@@ -244,7 +258,7 @@ function SectionHeading({
   children: React.ReactNode;
 }) {
   return (
-    <div className="max-w-2xl">
+    <div className="reveal max-w-2xl">
       <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent-strong">{eyebrow}</p>
       <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h2>
       <p className="mt-4 leading-7 text-muted">{children}</p>

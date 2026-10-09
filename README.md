@@ -1,6 +1,6 @@
 # MD. Asadullah Shibli — Portfolio
 
-Full stack web developer in Dhaka, with a Bachelor of Engineering from IUBAT. I build web applications with TypeScript, React, Next.js, and Node.js, from the interface through the API and the database.
+Full stack web developer in Dhaka, with a Bachelor of Engineering from IUBAT. I build web applications with TypeScript, React, and Next.js on the front and Node.js or Python (FastAPI) behind them, from the interface through the API and the database.
 
 **Live site:** https://portfolio-inky-eight-87.vercel.app
 
@@ -8,7 +8,7 @@ Full stack web developer in Dhaka, with a Bachelor of Engineering from IUBAT. I 
 
 ## What's on the page
 
-- **Projects, newest first.** Pulled from my public GitHub repos and refreshed every hour, so a new project shows up without editing the site. Browse with the arrows, the project names, the ← → keys, or a swipe on mobile. Each project shows a screenshot, highlights, a language breakdown, its stack, and links to the live demo and source.
+- **Projects.** Pinned projects first, then the rest newest first, pulled from my public GitHub repos and refreshed every hour, so a new project shows up without editing the site. Browse with the arrows, the project names, the ← → keys, or a swipe on mobile. Each project shows a screenshot, highlights, a language breakdown, its stack, and links to the live demo and source.
 - **About.** How I work across the interface, the API, and the data layer, with a project that backs up each claim.
 - **Skills.** The stack I ship with. Every item is used in at least one of the projects.
 - **Contact form.** Validated on the server and delivered to my inbox by email.
@@ -18,8 +18,8 @@ Full stack web developer in Dhaka, with a Bachelor of Engineering from IUBAT. I 
 
 | Project | What it does | Stack |
 | --- | --- | --- |
+| [Rokkha](https://github.com/AsadShibli/rokkha) | Public-safety dispatch: SOS to the nearest free officer, live tracking, and Online GD | FastAPI, PostgreSQL, Redis, WebSockets, Next.js |
 | [Dhaka Tesla Pool](https://github.com/AsadShibli/dhaka-tesla-pool) | Ride pooling for one three-seat car; capacity enforced in a single Postgres transaction | Next.js, Express, PostgreSQL, Drizzle, Docker |
-| [Rise Together](https://github.com/AsadShibli/rise-together-frontend) | Poster maker with accounts, uploads, and server-side image rendering | Next.js, Express, MongoDB |
 | [StudioDesk](https://github.com/AsadShibli/studiodesk) | Clients, bookings, and invoices for small studios, with roles and plans | Next.js, Express, Prisma, PostgreSQL |
 | [Dropbridge](https://github.com/AsadShibli/dropbridge) | Ephemeral file and note transfer that self-destructs after 48 hours | Next.js, Supabase |
 
@@ -63,5 +63,6 @@ Everything is in [`content.ts`](content.ts):
 
 - `profile`, `layers`, `skillGroups` are the page copy.
 - `projectNotes` adds a tagline, highlights, stack, demo link, and screenshot to a repo by name.
+- `pinnedRepos` puts repos first, in order, even if their main language isn't TypeScript or JavaScript.
 - `hiddenRepos` keeps practice repos and split halves of a project out of the carousel.
 - `projectLanguages` controls which repos count as web projects.

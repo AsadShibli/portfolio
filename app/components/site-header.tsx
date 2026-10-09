@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { navLinks, profile } from "@/content";
 import { GitHubIcon, MenuIcon, MoonIcon, SunIcon } from "./icons";
 
@@ -18,6 +18,29 @@ function toggleTheme() {
 export function SiteHeader() {
   const [active, setActive] = useState("");
   const [open, setOpen] = useState(false);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  // Thin bar under the header that fills as the page scrolls. Writes the style
+  // directly so scrolling never re-renders the header.
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progressRef.current?.style.setProperty("transform", `scaleX(${max > 0 ? scrollY / max : 0})`);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll);
+    return () => {
+      removeEventListener("scroll", onScroll);
+      removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   // Highlight the nav link for whichever section sits in the upper middle of the screen.
   useEffect(() => {
@@ -38,6 +61,11 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/75 backdrop-blur-xl">
+      <div
+        ref={progressRef}
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-accent to-accent-strong"
+      />
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
         <a href="#top" className="group flex items-center gap-2.5 font-semibold tracking-tight">
           <span className="grid size-8 place-items-center rounded-lg bg-accent font-mono text-sm text-accent-ink transition group-hover:rotate-6">

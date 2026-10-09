@@ -48,6 +48,11 @@ export function ProjectCarousel({ projects }: { projects: Project[] }) {
   };
 
   const current = projects[index];
+  // "Latest" marks the most recent push, which is not always the first (pinned) slide.
+  const latestRepo = projects.reduce<Project | null>(
+    (best, p) => (p.updatedISO && (!best?.updatedISO || p.updatedISO > best.updatedISO) ? p : best),
+    null,
+  )?.repo;
 
   return (
     <div role="region" aria-roledescription="carousel" aria-label="Projects, newest first" onKeyDown={onKeyDown}>
@@ -114,10 +119,11 @@ export function ProjectCarousel({ projects }: { projects: Project[] }) {
               aria-roledescription="slide"
               aria-label={`${i + 1} of ${count}: ${project.name}`}
               inert={i !== index}
+              data-active={i === index}
               className="grid w-full shrink-0 lg:grid-cols-[1.1fr_1fr]"
             >
               <ProjectMedia project={project} priority={i === 0} />
-              <ProjectDetails project={project} latest={i === 0} />
+              <ProjectDetails project={project} latest={project.repo === latestRepo} />
             </article>
           ))}
         </div>
@@ -187,8 +193,13 @@ function Cover({ project }: { project: Project }) {
 
 function ProjectDetails({ project, latest }: { project: Project; latest: boolean }) {
   return (
-    <div className="flex flex-col p-6 sm:p-8">
+    <div className="slide-details flex flex-col p-6 sm:p-8">
       <div className="flex flex-wrap items-center gap-2 text-xs">
+        {project.pinned && (
+          <span className="rounded-full border border-accent/40 px-2.5 py-1 font-medium text-accent-strong">
+            Featured
+          </span>
+        )}
         {latest && (
           <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-2.5 py-1 font-medium text-accent-strong">
             <span className="size-1.5 animate-pulse rounded-full bg-accent" />
